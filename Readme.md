@@ -12,7 +12,7 @@
     - [x] signout
   - [x] security
     - [x] session cookie
-    - [ ] password hashing
+    - [x] password hashing
  - administration dashboard
   - add products
   - edit products

@@ -38,8 +38,8 @@ app.use(cs({ keys: [ 'mySaltySecretCookie' ] }));
 // routes
 app.get('/register', (req, res) => {
 	let markup = registerForm;
-    // if (req.session.userId) markup += `<div>Session Userid: ${req.session.userId}</div>`;
-    markup += loginLink;
+	// if (req.session.userId) markup += `<div>Session Userid: ${req.session.userId}</div>`;
+	markup += loginLink;
 	res.send(markup);
 });
 
@@ -51,6 +51,7 @@ app.post('/register', async (req, res) => {
 	if (password !== passwordConfirmation) {
 		return res.send(confirmationError + registerLink);
 	}
+	// TODO: do we need this return?
 	const attrs = await usersRepo.create({ email, password });
 	res.redirect('/login');
 });
@@ -61,35 +62,36 @@ app.get('/signout', (req, res) => {
 });
 
 app.get('/login', (req, res) => {
-    let markup = loginForm;
-    markup += registerLink;
+	let markup = loginForm;
+	markup += registerLink;
 	res.send(markup);
 });
 
 app.post('/login', async (req, res) => {
 	const { email, password } = req.body;
-    const candidate = await usersRepo.getFirst({ email });
-    if(!candidate) {
-        return res.send(emailError + loginLink);
-    }
-	if (candidate.password !== password) {
-        return res.send(passwordError + loginLink);
-    }  
-    req.session.userId = candidate.id;
-    res.redirect('/');
+	const candidate = await usersRepo.getFirst({ email });
+	if (!candidate) {
+		return res.send(emailError + loginLink);
+	}
+	const isValidPassword = await usersRepo.validatedPassword(password, candidate.password);
+	if (!isValidPassword) {
+		return res.send(passwordError + loginLink);
+	}
+	req.session.userId = candidate.id;
+	res.redirect('/');
 });
 
 app.get('/', async (req, res) => {
 	let markup = homeView;
-	if (req.session.userId){
-        const user = await usersRepo.getOne(req.session.userId);
-        if(user){
-            markup += `<div>${user.email}</div>`;
-            markup += signoutLink;
-        }
-    } else {
-        markup += loginLink + registerLink;
-    }
+	if (req.session.userId) {
+		const user = await usersRepo.getOne(req.session.userId);
+		if (user) {
+			markup += `<div>${user.email}</div>`;
+			markup += signoutLink;
+		}
+	} else {
+		markup += loginLink + registerLink;
+	}
 	res.send(markup);
 });
 
