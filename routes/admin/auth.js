@@ -1,26 +1,34 @@
 // Strings
 const registerForm = require('../../views/admin/auth/register');
 const loginForm = require('../../views/admin/auth/login');
-const homeView = `<h2>Home Page</h2><div>Welcome</div>`;
+const homeView = require('../../views/home');
 const signoutLink = `<p><a href="/signout">Sign out</a></p>`;
 const registerLink = `<p><a href="/register">Register</a></p>`;
 const loginLink = `<p><a href="/login">Login</a></p>`;
+const homeLink = `<p><a href="/">Home</a></p>`;
 const emailError = `<h3>User not found!</h3>`;
 const emailDuplicateError = `<h3>Email already in use!</h3>`;
 const passwordError = `<h3>Password error!</h3>`;
 const confirmationError = `<h3>Password confirmation error!</h3>`;
 
 // requirements
-const express = require('express')
+const express = require('express');
 const usersRepo = require('../../repositories/UsersRepository');
 
 const router = express.Router();
 
+// guard
+const guardIfSignedIn = (req, res) => {
+	if (req.session.userId) {
+		res.redirect('/');
+	}
+};
+
 // routes
 router.get('/register', (req, res) => {
-	let markup = registerForm({req});
-	// if (req.session.userId) markup += `<div>Session Userid: ${req.session.userId}</div>`;
-	markup += loginLink;
+	guardIfSignedIn(req, res);
+	const nav = `${loginLink}${homeLink}`;
+	const markup = registerForm({ req, nav });
 	res.send(markup);
 });
 
@@ -43,8 +51,9 @@ router.get('/signout', (req, res) => {
 });
 
 router.get('/login', (req, res) => {
-	let markup = loginForm({req});
-	markup += registerLink;
+	guardIfSignedIn(req, res);
+	const nav = `${registerLink}${homeLink}`;
+	const markup = loginForm({ req, nav });
 	res.send(markup);
 });
 
@@ -63,18 +72,15 @@ router.post('/login', async (req, res) => {
 });
 
 router.get('/', async (req, res) => {
-	let markup = homeView;
+	let nav = ``;
 	if (req.session.userId) {
-		const user = await usersRepo.getOne(req.session.userId);
-		if (user) {
-			markup += `<div>${user.email}</div>`;
-			markup += signoutLink;
-		}
+		nav = `${signoutLink}`;
 	} else {
-		markup += loginLink + registerLink;
+		nav = `${loginLink}${registerLink}`;
 	}
+
+	const markup = await homeView({ req, nav });
 	res.send(markup);
 });
-
 
 module.exports = router;

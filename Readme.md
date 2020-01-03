@@ -2,9 +2,18 @@
 
 - [x] nodejs webserver
   - [x] express
+    - [x] router
   - [x] middleware
     - [x] body-parser
     - [x] cookie-session
+  - [x] dotenv for configuration hiding
+    - [x] hashing delimiter
+    - [x] secret salt
+    - [ ] fs-extra for folder/file work
+      - [ ] datastore paths
+  - [ ] string handling
+    - [ ] errors
+    - [ ] links
 - [x] users authentication
   - [x] authorization
     - [x] register
@@ -32,5 +41,5 @@
   - a reduce item action
   - a total for each item
   - a total for the cart
-- a simulated payment workflow
+- simulated payment workflow
 - testing

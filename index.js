@@ -4,13 +4,16 @@ const express = require('express');
 const app = express();
 const authRouter = require('./routes/admin/auth');
 
+// externalize config
+require('dotenv').config();
+
 // middleware
 const cs = require('cookie-session');
 const bodyParser = require('body-parser');
 const urlencodedParser = bodyParser.urlencoded({ extended: true });
 
 app.use(urlencodedParser);
-app.use(cs({ keys: [ 'mySaltySecretCookie' ] }));
+app.use(cs({ keys: [ process.env.SECRET_SALT ] }));
 app.use(authRouter);
 
 
