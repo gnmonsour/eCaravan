@@ -3,14 +3,16 @@
 - [x] nodejs webserver
   - [x] express
     - [x] router
+    - [ ] static files
   - [x] middleware
     - [x] body-parser
     - [x] cookie-session
   - [x] dotenv for configuration hiding
     - [x] hashing delimiter
     - [x] secret salt
-    - [ ] fs-extra for folder/file work
-      - [ ] datastore paths
+    - [ ] paths
+  - [ ] fs-extra for folder/file work
+    - [ ] datastore paths
   - [ ] string handling
     - [ ] errors
     - [ ] links

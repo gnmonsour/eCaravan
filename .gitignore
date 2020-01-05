@@ -2,3 +2,6 @@ node_modules/
 package-lock.json
 *_repo.json
 .env
+datastore/
+ecomm-*
+

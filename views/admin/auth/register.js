@@ -1,17 +1,46 @@
+const { testError } = require("./testError");
+
 const layout = require('../../layout');
 
-module.exports = ({req, nav}) => {
+module.exports = ({nav, errors}) => {
     const contents = 
-     `<h2>Register</h2>
-     <div>
-        <form method="POST">
-            <input name="email" type="email" placeholder="Email">
-            <input name="password" type="password" placeholder="Password">
-            <input name="passwordConfirmation" type="password" placeholder="Confirm Password">
-            <button>Sign Up</button>
-        </form>
+    `
+    <div class="container">
+        <div class="columns is-centered">
+            <div class="column is-one-quarter">
+                <form method="POST">
+                    <h1>Register</h1>
+                    <div class="field">
+                        <label class="label">Email</label>
+                        <input class="input" name="email" type="email" placeholder="Email">
+                        <p class="help is-danger">
+                        ${testError(errors, 'email')}
+                        </p>
+                    </div>
+                    <div class="field">
+                        <label class="label">Password</label>
+                        <input class="input" name="password" type="password" placeholder="Password">
+                        <p class="help is-danger">
+                        ${testError(errors, 'password')}
+                        </p>
+                    </div>
+                    <div class="field">
+                        <label class="label">Confirm Password</label>
+                        <input class="input" name="passwordConfirmation" type="password" placeholder="Confirm Password">
+                        <p class="help is-danger">
+                        ${testError(errors, 'passwordConfirmation')}
+                        </p>
+                    </div>
+                <button class="button is-primary">Sign Up</button>
+                </form>
+                ${nav}
+            </div>
+        </div>
     </div>
-    ${nav}`;
+
+ 
+   
+    `;
     const pageTitle = `Register`;
     return layout({contents, pageTitle});
 };
