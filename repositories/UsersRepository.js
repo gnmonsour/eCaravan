@@ -1,9 +1,9 @@
 const fs = require('fs');
 const crypto = require('crypto');
 const util = require('util');
-require('dotenv').config();
-
 const scrypt = util.promisify(crypto.scrypt);
+
+require('dotenv').config();
 const kDLIMITER = process.env.HASH_DELIMITER;
 
 class UsersRepository {
@@ -96,7 +96,7 @@ class UsersRepository {
 	}
 }
 
-const instance = new UsersRepository(process.env.REPO_USERS_FILE);
+const instance = new UsersRepository(process.env.DATASTORE_LOC + process.env.REPO_USERS_FILE);
 Object.freeze(instance);
 
 module.exports = instance;
