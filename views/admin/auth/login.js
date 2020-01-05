@@ -1,4 +1,4 @@
-const { testError } = require("./testError");
+const { testError } = require("../../testError");
 const layout = require('../../layout');
 module.exports = ({nav, errors})=> {
 return layout({contents: `

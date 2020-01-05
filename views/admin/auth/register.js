@@ -1,4 +1,4 @@
-const { testError } = require("./testError");
+const { testError } = require("../../testError");
 
 const layout = require('../../layout');
 

@@ -82,7 +82,6 @@ router.post('/login', [ requireLoginEmail, requireLoginPassword ], async (req, r
 		const { email } = req.body;
 		const candidate = await usersRepo.getFirst({ email });
 		if (candidate) {
-			req.session.userId = candidate.id;
 			res.redirect('/');
 		}
 	}
