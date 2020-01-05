@@ -1,10 +1,10 @@
 const fs = require('fs');
 const crypto = require('crypto');
-const util = require('util');
-const scrypt = util.promisify(crypto.scrypt);
+// const util = require('util');
+// const scrypt = util.promisify(crypto.scrypt);
 
 require('dotenv').config();
-const kDLIMITER = process.env.HASH_DELIMITER;
+// const kDLIMITER = process.env.HASH_DELIMITER;
 
 module.exports = class Repository {
 	constructor(filename) {

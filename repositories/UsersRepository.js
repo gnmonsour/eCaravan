@@ -17,7 +17,6 @@ class UsersRepository extends Repository {
 		return UsersRepository.singleton;
 	}
 
-
 	async create(attrs) {
 		attrs.id = this.createRandomId();
 		const salt = this.createRandomSalt();
