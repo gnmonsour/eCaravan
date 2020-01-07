@@ -15,15 +15,15 @@ const {
 	requirePassword,
 	requirePasswordConfirmation
 } = require('./validators');
+
 // requirements
 const express = require('express');
-const { check, validationResult } = require('express-validator');
-
+const { validationResult } = require('express-validator');
 const usersRepo = require('../../repositories/UsersRepository');
 
 const router = express.Router();
 
-// guard
+// authentication guard
 const guardIfSignedIn = (req, res) => {
 	if (req.session.userId) {
 		res.redirect('/');
@@ -51,7 +51,6 @@ router.post('/register', [ requireEmail, requirePassword, requirePasswordConfirm
 	const errors = validationResult(req);
 
 	if (!errors.isEmpty()) {
-		// console.log('register errors', errors);
 		wrapRegisterCall(req, res, errors);
 	}
 	else {

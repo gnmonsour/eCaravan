@@ -7,11 +7,22 @@ const passwordError = `Password error! Requires 4-20 characters.`;
 const confirmationError = `Password confirmation error!`;
 const emailLoginError = `User (email) not found!`;
 const loginPasswordError = `Password error! Login password is invalid.`;
+const priceError = `Price is an invalid number.`;
+const productTitleError = `Product title error! Requires 5-30 characters.`;
 
 // Found that the custom validation need to return true
 // otherwise an error is raised.
 
 module.exports = {
+	requireTitle: check('title')
+		.trim()
+		.isLength({min: 5, max: 30})
+		.withMessage(productTitleError),
+	requirePrice: check('price')
+		.trim()
+		.toFloat()
+		.isFloat({min:1})
+		.withMessage(priceError),
 	requireEmail: check('email').trim().normalizeEmail().isEmail().withMessage(emailError).custom(async (email) => {
 		const isExistingUser = await usersRepo.getFirst({ email });
 		if (isExistingUser) {

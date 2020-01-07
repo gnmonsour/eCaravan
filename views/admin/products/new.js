@@ -1,24 +1,24 @@
-const { testError } = require("../../testError");
+const { testError, repopulateInput } = require("../../testError");
 
 const layout = require('../../layout');
 
-module.exports = ({ errors }) => {
+module.exports = ({ errors, req }) => {
     return layout({ contents: `
     <div class="container">
     <div class="columns is-centered">
         <div class="column is-one-quarter">
-            <form method="POST">
+            <form method="POST" enctype="multipart/form-data">
                 <h1>New Product</h1>
                 <div class="field">
                     <label class="label">Title</label>
-                    <input class="input" name="title" type="text" placeholder="Product Title">
+                    <input class="input" name="title" type="text" value="${repopulateInput(req, 'title')}" placeholder="Product Title">
                     <p class="help is-danger">
                     ${testError(errors, 'title')}
                     </p>
                 </div>
                 <div class="field">
                     <label class="label">Price</label>
-                    <input class="input" name="price" type="price" placeholder="Price">
+                    <input class="input" name="price" type="price" value="${repopulateInput(req, 'price')}" placeholder="Price">
                     <p class="help is-danger">
                     ${testError(errors, 'price')}
                     </p>
