@@ -3,17 +3,18 @@
 - [x] nodejs webserver
   - [x] express
     - [x] router
-    - [ ] static files
+    - [x] static files
   - [x] middleware
     - [x] body-parser
     - [x] cookie-session
+    - [x] errors, form values, links ...
   - [x] dotenv for configuration hiding
     - [x] hashing delimiter
     - [x] secret salt
-    - [ ] paths
+    - [x] paths
   - [ ] fs-extra for folder/file work
     - [ ] datastore paths
-  - [ ] string handling
+  - [ ] centralize string handling
     - [ ] errors
     - [ ] links
 - [x] users authentication
@@ -24,11 +25,11 @@
   - [x] security
     - [x] session cookie
     - [x] password hashing
- - administration dashboard
-  - add products
-  - edit products
-- product viewers
-- list
+- [x] administration
+  - [x] add products
+  - [x] edit products
+- [ ] transaction handling
+- [ ] list
   - add products to a cart
   - view product page
 - product page will display
