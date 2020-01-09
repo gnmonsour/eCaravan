@@ -4,7 +4,7 @@ const express = require('express');
 // middleware
 const { validationResult } = require('express-validator');
 const router = express.Router();
-const { requireAuth, guardIfSignedIn } = require('./middleware');
+const { handleErrors, requireAuth, guardIfSignedIn } = require('./middleware');
 
 // templates and nav links TODO: going to need to centralize for reuse
 const registerForm = require('../../views/admin/auth/register');
@@ -28,11 +28,7 @@ const {
 const usersRepo = require('../../repositories/UsersRepository');
 
 // wrappers facilitate template variables
-const wrapRegisterCall = async (req, res, errors = undefined) => {
-	const nav = `${loginLink}${homeLink}`;
-	const markup = await registerForm({ nav, errors, req });
-	return res.send(markup);
-};
+
 const wrapLoginCall = async (req, res, errors = undefined) => {
 	const nav = `${registerLink}${homeLink}`;
 	const markup = await loginForm({ nav, errors, req });
@@ -40,27 +36,26 @@ const wrapLoginCall = async (req, res, errors = undefined) => {
 };
 
 // routes
-router.get('/register', guardIfSignedIn, (req, res) => {
-	// guardIfSignedIn(req, res);
-	wrapRegisterCall(req, res);
+router.get('/register', guardIfSignedIn,  (req, res) => {
+	const nav = `${loginLink}${homeLink}`;
+	const markup =  registerForm({ nav, formData: req.body });
+	return res.send(markup);
 });
 
 router.post(
 	'/register',
 	guardIfSignedIn,
 	[ requireEmail, requirePassword, requirePasswordConfirmation ],
+	handleErrors(registerForm, (req) => {
+		const formData = req.body;
+		const nav = `${loginLink}${homeLink}`;
+		return {formData, nav};
+	}),
 	async (req, res) => {
-		const errors = validationResult(req);
-
-		if (!errors.isEmpty()) {
-			wrapRegisterCall(req, res, errors);
-		}
-		else {
-			const { email, password } = req.body;
-			// TODO: do we need this return?
-			const attrs = await usersRepo.create({ email, password });
-			res.redirect('/login');
-		}
+		const { email, password } = req.body;
+		// TODO: do we need this return?
+		const attrs = await usersRepo.create({ email, password });
+		res.redirect('/login');
 	}
 );
 

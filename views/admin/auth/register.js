@@ -2,7 +2,10 @@ const { testError, repopulateInput } = require("../../testError");
 
 const layout = require('../../layout');
 
-module.exports = ({nav, errors, req}) => {
+module.exports = ({errors, formData, nav}) => {
+    const {email, password} = formData;
+    const formEmail = email ? email : "";
+    const formPassword = password ? password : "";
     const contents = 
     `
     <div class="container">
@@ -12,14 +15,14 @@ module.exports = ({nav, errors, req}) => {
         <h1>Register</h1>
         <div class="field">
             <label class="label">Email</label>
-            <input class="input" name="email" type="email" placeholder="Email" value=${repopulateInput(req, 'email')}>
+            <input class="input" name="email" type="email" placeholder="Email" value=${formEmail}>
             <p class="help is-danger">
             ${testError(errors, 'email')}
             </p>
         </div>
         <div class="field">
             <label class="label">Password</label>
-            <input class="input" name="password" type="password" placeholder="Password" value=${repopulateInput(req, 'password')}>
+            <input class="input" name="password" type="password" placeholder="Password" value=${formPassword}>
             <p class="help is-danger">
             ${testError(errors, 'password')}
             </p>

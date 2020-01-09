@@ -30,37 +30,31 @@ router.get('/admin/products/new', requireAuth, async (req, res) => {
 	return res.send(markup);
 });
 
-// the order of middleware is important to the error validation middleware
-// the multipart form middleware should be invoked before the validation
-// middleware in the argument list
+// because the req object is transformed,
+// the order of middleware is important
+// the multipart form middleware (upload.single) must be invoked
+// before the validation middleware [require*, [require*]]
 router.post(
 	'/admin/products/new',
 	requireAuth,
 	upload.single('image'),
 	[ requireTitle, requirePrice ],
+	handleErrors(newProductForm),
 	async (req, res) => {
-		const errors = validationResult(req);
-
-		if (!errors.isEmpty()) {
-			const markup = await newProductForm({ errors, req });
-			return res.send(markup);
-		}
-		else {
-			let image;
-			if (req.file) image = req.file.buffer.toString('base64');
-			const { title, price } = req.body;
-			try {
+		let image;
+		if (req.file) image = req.file.buffer.toString('base64');
+		const { title, price } = req.body;
+		try {
+			await productsRepo.create({ title, price, image });
+		} catch (error) {
+			// in case where repo has been deleted or destroyed
+			if (error.code === 'ENOENT') {
+				console.log('retrying to build repo and post');
+				productsRepo.createOrRecoverStore();
 				await productsRepo.create({ title, price, image });
-			} catch (error) {
-				// in case where repo has been deleted or destroyed
-				if (error.code === 'ENOENT') {
-					console.log('retrying to build repo and post');
-					productsRepo.createOrRecoverStore();
-					await productsRepo.create({ title, price, image });
-				}
-				else {
-					throw new Error('Failed to create new product.');
-				}
+			}
+			else {
+				throw new Error('Failed to create new product.');
 			}
 		}
 		res.redirect('/admin/products');

@@ -3,6 +3,7 @@ const { testError, repopulateInput } = require("../../testError");
 const layout = require('../../layout');
 
 module.exports = ({ errors, req }) => {
+    const pageTitleHasErrors = !errors ? '' : " With Errors";
     return layout({ contents: `
     <div class="container">
     <div class="columns is-centered">
@@ -53,5 +54,5 @@ module.exports = ({ errors, req }) => {
         </div>
     </div>
 </div>
-    `, pageTitle: `New Product`})
+    `, pageTitle: `New Product${pageTitleHasErrors}`})
 }
