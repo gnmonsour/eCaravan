@@ -7,7 +7,7 @@ module.exports = ({nav, errors, req}) => {
     `
     <div class="container">
         <div class="columns is-centered">
-<div class="column is-one-quarter">
+<div class="column is-one-half">
     <form method="POST">
         <h1>Register</h1>
         <div class="field">

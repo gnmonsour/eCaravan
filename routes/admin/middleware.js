@@ -17,5 +17,13 @@ module.exports = {
             return res.redirect('/');
         }
         next();
+    },
+    // authentication guard
+    guardIfSignedIn(req, res, next){
+        if (req.session.userId) {
+            return res.redirect('/');
+        }
+        next();
     }
+
 };

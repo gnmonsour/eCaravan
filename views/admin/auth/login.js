@@ -4,7 +4,7 @@ module.exports = ({nav, errors, req})=> {
 return layout({contents: `
 <div class="container">
     <div class="columns is-centered">
-        <div class="column is-one-quarter">
+        <div class="column is-one-half">
             <form method="POST">
                 <h1>Log In</h1>
                 <div class="field>
