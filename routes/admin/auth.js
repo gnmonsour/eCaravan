@@ -1,4 +1,11 @@
-// Strings
+// requirements
+const express = require('express');
+
+// middleware
+const { validationResult } = require('express-validator');
+const router = express.Router();
+
+// templates and nav links TODO: going to need to centralize for reuse
 const registerForm = require('../../views/admin/auth/register');
 const loginForm = require('../../views/admin/auth/login');
 const homeView = require('../../views/home');
@@ -16,12 +23,8 @@ const {
 	requirePasswordConfirmation
 } = require('./validators');
 
-// requirements
-const express = require('express');
-const { validationResult } = require('express-validator');
+// storage
 const usersRepo = require('../../repositories/UsersRepository');
-
-const router = express.Router();
 
 // authentication guard
 const guardIfSignedIn = (req, res) => {
@@ -30,14 +33,15 @@ const guardIfSignedIn = (req, res) => {
 	}
 };
 
-const wrapRegisterCall = (req, res, errors = undefined) => {
+// wrappers facilitate template variables
+const wrapRegisterCall = async (req, res, errors = undefined) => {
 	const nav = `${loginLink}${homeLink}`;
-	const markup = registerForm({ nav, errors });
+	const markup = await registerForm({ nav, errors, req });
 	return res.send(markup);
 };
-const wrapLoginCall = (req, res, errors = undefined) => {
+const wrapLoginCall = async (req, res, errors = undefined) => {
 	const nav = `${registerLink}${homeLink}`;
-	const markup = loginForm({ nav, errors });
+	const markup = await loginForm({ nav, errors, req });
 	return res.send(markup);
 };
 
@@ -81,7 +85,8 @@ router.post('/login', [ requireLoginEmail, requireLoginPassword ], async (req, r
 		const { email } = req.body;
 		const candidate = await usersRepo.getFirst({ email });
 		if (candidate) {
-			res.redirect('/');
+			req.session.userId = candidate.id;
+			res.redirect('/admin/products');
 		}
 	}
 });

@@ -12,18 +12,13 @@ module.exports = class Repository {
 			throw new Error('A filename is needed to create this repository.');
 		}
 		this.filename = filename;
-		try {
-			fs.accessSync(filename);
-		} catch (err) {
-			fs.writeFileSync(this.filename, '[]');
-			console.log('file created');
-		}
+	
     }
     
     async create(attrs) {
         attrs.id = this.createRandomId();
         const records = await this.getAll();
-        records.push(attr);
+        records.push(attrs);
         await this.writeAll(records);
     }
     
@@ -78,6 +73,15 @@ module.exports = class Repository {
 			if (isFound) return record;
 		}
 		return undefined;
+	}
+
+	createOrRecoverStore() {
+		try {
+			fs.accessSync(filename);
+		} catch (err) {
+			fs.writeFileSync(this.filename, '[]');
+			console.log('file created');
+		}
 	}
 }
 

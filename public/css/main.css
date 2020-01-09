@@ -144,3 +144,16 @@ body {
   display: flex;
   align-items: center;
 }
+
+/* .productItem {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 1em;  } */
+
+.file, .formBtn {
+  margin-top: 1.5em;
+}
+

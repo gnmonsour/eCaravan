@@ -2,11 +2,13 @@
 // requirements
 const express = require('express');
 const app = express();
-const authRouter = require('./routes/admin/auth');
-const productsRouter = require('./routes/admin/products');
 
 // externalize config
 require('dotenv').config();
+
+// routers
+const authRouter = require('./routes/admin/auth');
+const productsRouter = require('./routes/admin/products');
 
 // middleware
 const cs = require('cookie-session');

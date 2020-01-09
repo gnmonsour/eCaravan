@@ -8,8 +8,10 @@ function testError(errors, key) {
 
 function repopulateInput(req, key) {
 	try {
-		const retVal = req ? `${req.body[key]}` : '';
-		return retVal === 'NaN' ? '' : retVal;
+        // console.log('repopulate body', req.body[key]);
+		const retVal = req.body[key] ? req.body[key] : '' ;
+        // console.log('retVal',retVal);
+        return retVal === 'NaN' ? '' : retVal;
 	} catch (err) {
 		return '';
 	}

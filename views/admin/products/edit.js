@@ -2,23 +2,23 @@ const { testError, repopulateInput } = require("../../testError");
 
 const layout = require('../../layout');
 
-module.exports = ({ errors, req }) => {
+module.exports = ({ errors, product }) => {
     return layout({ contents: `
     <div class="container">
     <div class="columns is-centered">
         <div class="column is-one-half">
-        <h1>Create a Product</h1>
+        <h1>Edit a Product</h1>
             <form method="POST" enctype="multipart/form-data">
                 <div class="field">
                     <label class="label">Title</label>
-                    <input class="input" name="title" type="text" value="${repopulateInput(req, 'title')}" placeholder="Product Title">
+                    <input class="input" name="title" type="text" value="${product.title}" placeholder="Product Title">
                     <p class="help is-danger">
                     ${testError(errors, 'title')}
                     </p>
                 </div>
                 <div class="field">
                     <label class="label">Price</label>
-                    <input class="input" name="price" type="price" value="${repopulateInput(req, 'price')}" placeholder="Price">
+                    <input class="input" name="price" type="price" value="${product.price}" placeholder="Price">
                     <p class="help is-danger">
                     ${testError(errors, 'price')}
                     </p>
@@ -36,9 +36,7 @@ module.exports = ({ errors, req }) => {
                                 </span>
                             </span>
                         </label>
-                        <p class="help is-danger">
-                        ${testError(errors, 'image')}
-                        </p>
+                
                     </div>
                     <div class="field is-grouped" >
                         <div class="control">
@@ -53,5 +51,5 @@ module.exports = ({ errors, req }) => {
         </div>
     </div>
 </div>
-    `, pageTitle: `New Product`})
+`, pageTitle: `Edit Product`})
 }
