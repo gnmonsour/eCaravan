@@ -1,8 +1,9 @@
-const { testError, repopulateInput } = require("../../testError");
+const { testError } = require("../../testError");
 
 const layout = require('../../layout');
 
-module.exports = ({ errors, product }) => {
+module.exports = ({ formData, errors }) => {
+    const pageTitleHasErrors = !errors ? '' : " With Errors";
     return layout({ contents: `
     <div class="container">
     <div class="columns is-centered">
@@ -11,14 +12,14 @@ module.exports = ({ errors, product }) => {
             <form method="POST" enctype="multipart/form-data">
                 <div class="field">
                     <label class="label">Title</label>
-                    <input class="input" name="title" type="text" value="${product.title}" placeholder="Product Title">
+                    <input class="input" name="title" type="text" value="${formData.title}" placeholder="Product Title">
                     <p class="help is-danger">
                     ${testError(errors, 'title')}
                     </p>
                 </div>
                 <div class="field">
                     <label class="label">Price</label>
-                    <input class="input" name="price" type="price" value="${product.price}" placeholder="Price">
+                    <input class="input" name="price" type="price" value="${formData.price}" placeholder="Price">
                     <p class="help is-danger">
                     ${testError(errors, 'price')}
                     </p>
@@ -40,7 +41,7 @@ module.exports = ({ errors, product }) => {
                     </div>
                     <div class="field is-grouped" >
                         <div class="control">
-                            <button class="button is-primary">Create</button>
+                            <button class="button is-primary">Update</button>
                         </div>
                         <div class="control">
                             <a class="button is-light" href="/admin/products">Cancel</a>
@@ -51,5 +52,5 @@ module.exports = ({ errors, product }) => {
         </div>
     </div>
 </div>
-`, pageTitle: `Edit Product`})
+`, pageTitle: `Edit Product${pageTitleHasErrors}`})
 }
