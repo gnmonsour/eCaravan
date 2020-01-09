@@ -2,11 +2,10 @@
 const express = require('express');
 
 // middleware
-const { validationResult } = require('express-validator');
 const router = express.Router();
 const { handleErrors, requireAuth, guardIfSignedIn } = require('./middleware');
 
-// templates and nav links TODO: going to need to centralize for reuse
+// templates and nav links TODO: centralize for reuse
 const registerForm = require('../../views/admin/auth/register');
 const loginForm = require('../../views/admin/auth/login');
 const homeView = require('../../views/home');
@@ -27,18 +26,10 @@ const {
 // storage
 const usersRepo = require('../../repositories/UsersRepository');
 
-// wrappers facilitate template variables
-
-const wrapLoginCall = async (req, res, errors = undefined) => {
-	const nav = `${registerLink}${homeLink}`;
-	const markup = await loginForm({ nav, errors, req });
-	return res.send(markup);
-};
-
 // routes
-router.get('/register', guardIfSignedIn,  (req, res) => {
+router.get('/register', guardIfSignedIn, (req, res) => {
 	const nav = `${loginLink}${homeLink}`;
-	const markup =  registerForm({ nav, formData: req.body });
+	const markup = registerForm({ nav, formData: req.body });
 	return res.send(markup);
 });
 
@@ -49,7 +40,7 @@ router.post(
 	handleErrors(registerForm, (req) => {
 		const formData = req.body;
 		const nav = `${loginLink}${homeLink}`;
-		return {formData, nav};
+		return { formData, nav };
 	}),
 	async (req, res) => {
 		const { email, password } = req.body;
@@ -65,16 +56,21 @@ router.get('/signout', requireAuth, (req, res) => {
 });
 
 router.get('/login', guardIfSignedIn, (req, res) => {
-	wrapLoginCall(req, res);
+	const nav = `${registerLink}${homeLink}`;
+	const markup = loginForm({ nav, formData: req.body });
+	return res.send(markup);
 });
 
-router.post('/login', guardIfSignedIn, [ requireLoginEmail, requireLoginPassword ], async (req, res) => {
-	const errors = validationResult(req);
-
-	if (!errors.isEmpty()) {
-		wrapLoginCall(req, res, errors);
-	}
-	else {
+router.post(
+	'/login',
+	guardIfSignedIn,
+	[ requireLoginEmail, requireLoginPassword ],
+	handleErrors(loginForm, (req) => {
+		const formData = req.body;
+		const nav = `${registerLink}${homeLink}`;
+		return { formData, nav };
+	}),
+	async (req, res) => {
 		const { email } = req.body;
 		const candidate = await usersRepo.getFirst({ email });
 		if (candidate) {
@@ -82,7 +78,7 @@ router.post('/login', guardIfSignedIn, [ requireLoginEmail, requireLoginPassword
 			res.redirect('/admin/products');
 		}
 	}
-});
+);
 
 router.get('/', async (req, res) => {
 	let nav = ``;

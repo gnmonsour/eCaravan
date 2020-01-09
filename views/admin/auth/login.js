@@ -1,6 +1,7 @@
-const { testError, repopulateInput } = require("../../testError");
+const { testError} = require("../../testError");
 const layout = require('../../layout');
-module.exports = ({nav, errors, req})=> {
+module.exports = ({ errors, formData, nav})=> {
+    const formEmail = formData.email ? formData.email : "";
 return layout({contents: `
 <div class="container">
     <div class="columns is-centered">
@@ -9,7 +10,7 @@ return layout({contents: `
                 <h1>Log In</h1>
                 <div class="field>
                     <label class="label">Email</label>
-                    <input required class="input" name="email" type="email" placeholder="Email" value=${repopulateInput(req, 'email')}>
+                    <input required class="input" name="email" type="email" placeholder="Email" value=${formEmail}>
                     <p class="help is-danger">
                     ${testError(errors, 'email')}
                     </p>
@@ -21,9 +22,14 @@ return layout({contents: `
                         ${testError(errors, 'password')}
                     </p>
                 </div>
-                <p class="formBtn">
+                <div class="field is-grouped formBtn">
+                    <div class="control">
                     <button class="button is-primary">Log In</button>
-                </p>
+                    </div>
+                    <div class="control">
+                        <a class="button is-light" href="/">Cancel</a>
+                    </div>
+                </div>
             </form>
         ${nav}
         </div>

@@ -1,4 +1,4 @@
-const { testError, repopulateInput } = require("../../testError");
+const { testError } = require("../../testError");
 
 const layout = require('../../layout');
 
@@ -34,9 +34,14 @@ module.exports = ({errors, formData, nav}) => {
             ${testError(errors, 'passwordConfirmation')}
             </p>
         </div>
-        <p class="formBtn">
-            <button class="button is-primary">Sign Up</button>
-        </p>
+        <div class="field is-grouped formBtn">
+            <div class="control">
+                <button class="button is-primary">Sign Up</button>
+            </div>
+            <div class="control">
+                <a class="button is-light" href="/">Cancel</a>
+            </div>
+        </div>
     </form>
     ${nav}
 </div>
