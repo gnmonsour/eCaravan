@@ -1,5 +1,5 @@
 const { testError} = require("../../testError");
-const layout = require('../../layout');
+const layout = require('../layout');
 module.exports = ({ errors, formData, nav})=> {
     const formEmail = formData.email ? formData.email : "";
 return layout({contents: `

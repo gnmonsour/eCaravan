@@ -1,5 +1,4 @@
 const express = require('express');
-const { validationResult } = require('express-validator');
 const multer = require('multer');
 
 // middleware
@@ -30,8 +29,8 @@ router.get('/admin/products/new', requireAuth, async (req, res) => {
 	return res.send(markup);
 });
 
-// because the req object is transformed,
 // the order of middleware is important
+// because the req object is transformed,
 // the multipart form middleware (upload.single) must be invoked
 // before the validation middleware [require*, [require*]]
 router.post(

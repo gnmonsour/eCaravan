@@ -1,6 +1,6 @@
 const { testError, repopulateInput } = require("../../testError");
 
-const layout = require('../../layout');
+const layout = require('../layout');
 
 module.exports = ({ errors, req }) => {
     const pageTitleHasErrors = !errors ? '' : " With Errors";

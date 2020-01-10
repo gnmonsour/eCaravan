@@ -8,7 +8,8 @@ require('dotenv').config();
 
 // routers
 const authRouter = require('./routes/admin/auth');
-const productsRouter = require('./routes/admin/products');
+const adminProductsRouter = require('./routes/admin/products');
+const productsRouter = require('./routes/products');
 
 // middleware
 const cs = require('cookie-session');
@@ -18,8 +19,9 @@ const urlencodedParser = bodyParser.urlencoded({ extended: true });
 app.use(express.static('public'));
 app.use(urlencodedParser);
 app.use(cs({ keys: [ process.env.SECRET_SALT ] }));
-app.use(authRouter);
 app.use(productsRouter);
+app.use(authRouter);
+app.use(adminProductsRouter);
 
 // run server
 const port = +process.env.port || 3000;

@@ -1,6 +1,6 @@
 const { testError } = require("../../testError");
 
-const layout = require('../../layout');
+const layout = require('../layout');
 
 module.exports = ({ formData, errors }) => {
     const pageTitleHasErrors = !errors ? '' : " With Errors";
