@@ -103,8 +103,11 @@ router.post(
 	}
 );
 
-router.get('/admin/products/:id/delete', requireAuth, (req, res) => {
-	console.log('delete', req.params.id);
+router.post('/admin/products/:id/delete', requireAuth, async (req, res) => {
+
+	const candidate = await productsRepo.delete(req.params.id);
+	// console.log(`deleted ${candidate.title} with id: ${candidate.id}` );
+	return res.redirect('/admin/products');
 });
 
 module.exports = router;

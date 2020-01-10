@@ -45,8 +45,10 @@ module.exports = class Repository {
 
 	async delete(id) {
 		const records = await this.getAll();
+		const candidate = await this.getOne(id);
 		const updatedRecords = records.filter((record) => record.id !== id);
 		await this.writeAll(updatedRecords);
+		return candidate;
 	}
 
 	async update(id, attrs) {

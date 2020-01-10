@@ -14,9 +14,9 @@ module.exports = ({ products }) => {
           </a>
         </td>
         <td>
-            <a href="/admin/products/${product.id}/delete">
+            <form method="POST" action="/admin/products/${product.id}/delete">
                 <button class="button is-danger is-link" >Delete</button>
-            </a>
+            </form>
         </td>
       </tr>`
     }).join('');
