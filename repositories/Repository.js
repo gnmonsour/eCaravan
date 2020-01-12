@@ -79,7 +79,7 @@ module.exports = class Repository {
 
 	createOrRecoverStore() {
 		try {
-			fs.accessSync(filename);
+			fs.accessSync(this.filename);
 		} catch (err) {
 			fs.writeFileSync(this.filename, '[]');
 			console.log('file created');

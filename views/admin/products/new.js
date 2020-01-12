@@ -19,9 +19,16 @@ module.exports = ({ errors, req }) => {
                 </div>
                 <div class="field">
                     <label class="label">Price</label>
-                    <input class="input" name="price" type="price" value="${repopulateInput(req, 'price')}" placeholder="Price">
+                    <input class="input" name="price" type="number" value="${repopulateInput(req, 'price')}" placeholder="Price">
                     <p class="help is-danger">
                     ${testError(errors, 'price')}
+                    </p>
+                </div>
+                <div class="field">
+                    <label class="label">Inventory</label>
+                    <input class="input" name="inventory" type="number" value="${repopulateInput(req, 'inventory')}" placeholder="Inventory">
+                    <p class="help is-danger">
+                    ${testError(errors, 'inventory')}
                     </p>
                 </div>
                 <div class="control">

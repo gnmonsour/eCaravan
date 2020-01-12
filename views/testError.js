@@ -1,9 +1,17 @@
-module.exports = {
-	testError(errors, key) {
-		try {
-			return `${errors.mapped()[key].msg}`;
-		} catch (err) {
-			return '';
-		}
+function testError(errors, key) {
+	try {
+		return `${errors.mapped()[key].msg}`;
+	} catch (err) {
+		return '';
 	}
-};
+}
+
+function repopulateInput(req, key) {
+	try {
+		const retVal = req.body[key] ? req.body[key] : '' ;
+        return retVal === 'NaN' ? '' : retVal;
+	} catch (err) {
+		return '';
+	}
+}
+module.exports = { testError, repopulateInput };

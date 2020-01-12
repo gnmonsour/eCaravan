@@ -12,7 +12,7 @@ const editProductForm = require('../../views/admin/products/edit');
 const productListing = require('../../views/admin/products/index');
 
 // validators
-const { requireTitle, requirePrice } = require('./validators');
+const { requireTitle, requirePrice, requireInventory } = require('./validators');
 
 // storage
 let productsRepo = require('../../repositories/ProductsRepository');
@@ -37,7 +37,7 @@ router.post(
 	'/admin/products/new',
 	requireAuth,
 	upload.single('image'),
-	[ requireTitle, requirePrice ],
+	[ requireTitle, requirePrice, requireInventory ],
 	handleErrors(newProductForm),
 	async (req, res) => {
 		let image;
@@ -73,7 +73,7 @@ router.post(
 	'/admin/products/:id/edit',
 	requireAuth,
 	upload.single('image'),
-	[ requireTitle, requirePrice ],
+	[ requireTitle, requirePrice, requireInventory ],
 	handleErrors(editProductForm, async (req) => {
 		const formData = await productsRepo.getOne(req.params.id);
 		return { formData };

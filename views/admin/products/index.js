@@ -4,6 +4,7 @@ module.exports = ({ products }) => {
     const productList = products.map((product) => {
         return `
         <tr>
+        <td>${product.inventory}</td>
         <td>${product.title}</td>
         <td>${product.price}</td>
         <td>
@@ -30,6 +31,7 @@ module.exports = ({ products }) => {
         <table class="table">
             <thead>
                 <tr>
+                    <th>Inventory</th>
                     <th>Title</th>
                     <th>Price</th>
                     <th></th>

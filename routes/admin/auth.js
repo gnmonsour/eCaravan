@@ -80,17 +80,17 @@ router.post(
 	}
 );
 
-router.get('/', async (req, res) => {
-	let nav = ``;
-	if (req.session.userId) {
-		nav = `${signoutLink}`;
-	}
-	else {
-		nav = `${loginLink}${registerLink}`;
-	}
+// router.get('/', async (req, res) => {
+// 	let nav = ``;
+// 	if (req.session.userId) {
+// 		nav = `${signoutLink}`;
+// 	}
+// 	else {
+// 		nav = `${loginLink}${registerLink}`;
+// 	}
 
-	const markup = await homeView({ req, nav });
-	res.send(markup);
-});
+// 	const markup = await homeView({ req, nav });
+// 	res.send(markup);
+// });
 
 module.exports = router;

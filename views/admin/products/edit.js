@@ -19,9 +19,16 @@ module.exports = ({ formData, errors }) => {
                 </div>
                 <div class="field">
                     <label class="label">Price</label>
-                    <input class="input" name="price" type="price" value="${formData.price}" placeholder="Price">
+                    <input class="input" name="price" value="${formData.price}" placeholder="Price">
                     <p class="help is-danger">
                     ${testError(errors, 'price')}
+                    </p>
+                </div>
+                <div class="field">
+                    <label class="label">Inventory</label>
+                    <input class="input" name="inventory" value="${formData.inventory}" placeholder="Inventory">
+                    <p class="help is-danger">
+                    ${testError(errors, 'inventory')}
                     </p>
                 </div>
                 <div class="control">

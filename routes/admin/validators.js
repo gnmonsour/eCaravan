@@ -8,6 +8,7 @@ const confirmationError = `Password confirmation error!`;
 const emailLoginError = `User (email) not found!`;
 const loginPasswordError = `Password error! Login password is invalid.`;
 const priceError = `Price is a number within 0.01 and 999.99!`;
+const inventoryError = `Inventory is a number within 0 and 48!`;
 const productTitleError = `Product title error! Requires 5-30 characters.`;
 
 // Found that the custom validation need to return true
@@ -16,7 +17,7 @@ const productTitleError = `Product title error! Requires 5-30 characters.`;
 module.exports = {
 	requireTitle: check('title')
 		.trim()
-		.isLength({min: 5, max: 30})
+		.isLength({min: 5, max: 40})
 		.withMessage(productTitleError),
 	requirePrice: check('price')
 		.trim()
@@ -30,6 +31,11 @@ module.exports = {
 		}
 		return true;
 	}),
+	requireInventory: check('inventory')
+		.trim()
+		.toInt()
+		.isInt({gt:-1, lt: 49})
+		.withMessage(inventoryError),
 	requirePassword: check('password').trim().isLength({ min: 4, max: 20 }).withMessage(passwordError),
 	requireLoginEmail: check('email')
 		.trim()
