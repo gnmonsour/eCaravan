@@ -35,22 +35,22 @@ router.post('/cart/products', async (req, res) => {
         items.push(product);
     }
     await cartsRepo.update(cart.id, { items});
-
-    res.send('Product added to cart');
+    res.redirect('/');
 });
 
-// post delete item from cart
 
 
 const getProductDetails = async (cart) => {
     const products = [];
+    let grandTotal = 0;
     
     for(let item of cart.items) {
         const product = await productsRepo.getOne(item.productId);
         const total = product.price * item.quantity;
         products.push( {title: product.title, price: product.price, image: product.image, quantity: item.quantity, total, id: item.productId});
+        grandTotal+= total;
     }
-    return products;
+    return {products, grandTotal};
 }
 // show cart
 router.get('/cart', async(req, res) => {
@@ -58,10 +58,25 @@ router.get('/cart', async(req, res) => {
         return res.redirect('/');
     }
     const cart = await cartsRepo.getOne(req.session.cartId);
-    const products = await getProductDetails(cart);
-
-    return res.send(cartListing({cart, products}));
+    const {products, grandTotal} = await getProductDetails(cart);
+    
+    return res.send(cartListing({cart, products, grandTotal}));
 } );
+
+// post delete item from cart
+router.post('/cart/products/remove', async (req, res) => {
+    if(!req.session.cartId) {
+        return res.redirect('/');
+    }
+    const {productId} = req.body;
+    const cart = await cartsRepo.getOne(req.session.cartId);
+    const updatedItems = cart.items.filter((product) => product.productId != productId);
+    const updatedCart = await cartsRepo.update(cart.id, {items:updatedItems});
+    const {products, grandTotal} = await getProductDetails(updatedCart);
+    return res.send(cartListing({cart:updatedCart, products, grandTotal}));
+});
+
+
 
 
 module.exports = router;

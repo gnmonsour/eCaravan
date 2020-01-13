@@ -59,6 +59,7 @@ module.exports = class Repository {
 		}
 		Object.assign(record, attrs);
 		await this.writeAll(records);
+		return this.getOne(id);
 	}
 
 	async getFirst(filters) {
