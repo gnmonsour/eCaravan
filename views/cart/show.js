@@ -6,13 +6,33 @@ module.exports = ({ cart, products, grandTotal }) => {
         <div class="cart-item message">
           <h3 class="subtitle">${product.title}</h3>
           <div class="cart-right">
-              <div>${product.quantity} @ $${product.price} = </div>
+          ${product.quantity}  
+            <div class="field has-addons">
+              <form method="POST" action="/cart/products/increase">
+                <input hidden value="${product.id}" name="productId" >
+                <button class="button is-success is-inverted is-small">
+                  <span class="icon is-small">
+                    <i class="fas fa-plus"></i>
+                  </span>
+                </button>
+              </form>
+
+              <form method="POST" action="/cart/products/reduce">
+              <input hidden value="${product.id}" name="productId" >
+              <button class="button is-info is-inverted is-light is-small">
+              <span class="icon is-small">
+              <i class="fas fa-minus"></i>
+              </span>
+              </button>
+              </form>
+            </div>  
+            <div> @ $${product.price} = </div>
               <div class="price is-size-4">
               ${product.total}</div>
               <div class="remove">
                 <form method="POST" action="/cart/products/remove">
                   <input hidden value="${product.id}" name="productId" >
-                  <button class="button is-danger">
+                  <button class="button is-danger is-inverted is-light is-small">
                     <span class="icon is-small">
                       <i class="fas fa-times"></i>
                     </span>
