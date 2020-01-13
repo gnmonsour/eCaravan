@@ -47,7 +47,6 @@ module.exports = ({ cart, products, grandTotal }) => {
 
   return layout({
     contents: `
-
         <div id="cart" class="container">
           <div class="columns">
             <div class="column "></div>
@@ -72,5 +71,5 @@ module.exports = ({ cart, products, grandTotal }) => {
         </div>
 
     `
-  });
+  , count: products.length});
 };

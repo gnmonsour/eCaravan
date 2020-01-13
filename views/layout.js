@@ -1,4 +1,4 @@
-module.exports = ({ contents }) => {
+module.exports = ({ contents, count }) => {
   return `
     <!DOCTYPE html>
       <html lang="en">
@@ -8,8 +8,9 @@ module.exports = ({ contents }) => {
         <title>Caravan Commerce</title>
         
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" rel="stylesheet">
-        <link href="/css/main.css" rel="stylesheet">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.min.css"></link>
+        <link href="/css/main.css" rel="stylesheet">
+  
       </head>
 
       <body>
@@ -49,8 +50,8 @@ module.exports = ({ contents }) => {
                   <div class="navbar-item">
                     <a href="/"><i class="fa fa-star"></i> Products</a>
                   </div>
-                  <div class="navbar-item">
-                    <a href="/cart"><i class="fa fa-shopping-cart"></i> Cart</a>
+                  <div class="navbar-item" >
+                    <a href="/cart" ><i class="fa fa-shopping-cart" id="cart-btn"></i> Cart</a>
                   </div>
                 </div>
               </div>
@@ -59,6 +60,8 @@ module.exports = ({ contents }) => {
         </header>
 
         ${contents}
+        <div id="cartCount">${count}</div>
+        <script src="/js/main.js" ></script>
       </body>
     </html>
   `;

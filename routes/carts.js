@@ -7,6 +7,7 @@ const productsRepo = require('../repositories/ProductsRepository');
 const router = express.Router();
 
 const cartListing = require('../views/cart/show');
+const publicProductsTemplate = require('../views/products/index');
 
 // can't get here when product inventory is zero
 router.post('/cart/products', async (req, res) => {
@@ -34,8 +35,9 @@ router.post('/cart/products', async (req, res) => {
     if(product.quantity <= 1){
         items.push(product);
     }
-    await cartsRepo.update(cart.id, { items});
-    res.redirect('/');
+    const updatedCart = await cartsRepo.update(cart.id, { items});
+    const products = await productsRepo.getAll();
+	return	res.send(publicProductsTemplate({products, count: updatedCart.items.length}))
 });
 
 

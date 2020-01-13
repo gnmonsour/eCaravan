@@ -18,7 +18,7 @@ const unAvailableElement = `
   </div>
 </footer>
 `
-module.exports = ({ products }) => {
+module.exports = ({ products, count }) => {
   const productList = products
     .map(product => {
       const showCart = product.inventory > 0 ? availableElement(product.id) : unAvailableElement;
@@ -65,6 +65,6 @@ module.exports = ({ products }) => {
           </div>
         </div>
       </section>
-    `
+    `, count
   });
 };
