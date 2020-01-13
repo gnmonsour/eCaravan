@@ -6,7 +6,7 @@ const productsRepo = require('../repositories/ProductsRepository');
 
 const router = express.Router();
 
-const cartListing = require('../views/cart/index');
+const cartListing = require('../views/cart/show');
 
 // can't get here when product inventory is zero
 router.post('/cart/products', async (req, res) => {
@@ -42,24 +42,24 @@ router.post('/cart/products', async (req, res) => {
 // post delete item from cart
 
 
-const gatherProductDetails = async (cart) => {
+const getProductDetails = async (cart) => {
     const products = [];
     
     for(let item of cart.items) {
         const product = await productsRepo.getOne(item.productId);
         const total = product.price * item.quantity;
-        products.push( {title: product.title, price: product.price, quantity: item.quantity, total, id: item.productId});
+        products.push( {title: product.title, price: product.price, image: product.image, quantity: item.quantity, total, id: item.productId});
     }
     return products;
 }
-// get show cart
+// show cart
 router.get('/cart', async(req, res) => {
     if(!req.session.cartId) {
-        return res.send('There is no cart to show.');
+        return res.redirect('/');
     }
     const cart = await cartsRepo.getOne(req.session.cartId);
-    const products = await gatherProductDetails(cart);
-    // console.log(products);
+    const products = await getProductDetails(cart);
+
     return res.send(cartListing({cart, products}));
 } );
 
