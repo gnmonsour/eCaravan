@@ -4,30 +4,31 @@ module.exports = ({ cart, products, grandTotal }) => {
     .map(product => {
         return `
         <div class="cart-item message">
-          <h3 class="subtitle">${product.title}</h3>
-          <div class="cart-right">
-          ${product.quantity}  
-            <div class="field has-addons">
-              <form method="POST" action="/cart/products/increase">
-                <input hidden value="${product.id}" name="productId" >
-                <button class="button is-success is-inverted is-small">
-                  <span class="icon is-small">
-                    <i class="fas fa-plus"></i>
-                  </span>
-                </button>
-              </form>
-
-              <form method="POST" action="/cart/products/reduce">
-              <input hidden value="${product.id}" name="productId" >
-              <button class="button is-info is-inverted is-light is-small">
+        <div class="adjustQty">
+          <form method="POST" action="/cart/products/increase">
+            <input hidden value="${product.id}" name="productId" >
+            <button class="button is-success is-inverted is-small">
               <span class="icon is-small">
-              <i class="fas fa-minus"></i>
+                <i class="fas fa-plus"></i>
               </span>
-              </button>
-              </form>
-            </div>  
-            <div> @ $${product.price} = </div>
-              <div class="price is-size-4">
+            </button>
+          </form>
+
+          <form method="POST" action="/cart/products/reduce">
+            <input hidden value="${product.id}" name="productId" >
+            <button class="button is-info is-inverted is-light is-small">
+              <span class="icon is-small">
+                <i class="fas fa-minus"></i>
+              </span>
+            </button>
+          </form>
+        </div>  
+
+        <h3 class="subtitle">${product.title}</h3>
+        <div class="cart-right">
+          ${product.quantity}  
+          <div> @ $${product.price} = </div>
+            <div class="price is-size-4">
               ${product.total}</div>
               <div class="remove">
                 <form method="POST" action="/cart/products/remove">
@@ -39,7 +40,7 @@ module.exports = ({ cart, products, grandTotal }) => {
                   </button>
                 </form>
               </div>
-            </div>
+          </div>
         </div>
       `;
     })
@@ -69,7 +70,6 @@ module.exports = ({ cart, products, grandTotal }) => {
             <div class="column "></div>
           </div>
         </div>
-
     `
   , count: products.length});
 };

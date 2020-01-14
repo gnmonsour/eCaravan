@@ -17,7 +17,11 @@ class CartsRepository extends Repository {
 		return attrs.id;
 	}
 
-
+	async getItemCount(cartId) {
+		const cart = await this.getOne(cartId);
+		console.log(cart);
+		return cart.items.length;
+	}
 }
 
 

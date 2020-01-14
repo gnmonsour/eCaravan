@@ -49,7 +49,13 @@ const getProductDetails = async (cart) => {
     for(let item of cart.items) {
         const product = await productsRepo.getOne(item.productId);
         const total = product.price * item.quantity;
-        products.push( {title: product.title, price: product.price, image: product.image, quantity: item.quantity, total, id: item.productId});
+        products.push( {title: product.title, 
+                        price: product.price, 
+                        image: product.image, 
+                        quantity: item.quantity, 
+                        total, 
+                        id: item.productId, 
+                        inventory: product.inventory});
         grandTotal+= total;
     }
     return {products, grandTotal};
@@ -73,12 +79,52 @@ router.post('/cart/products/remove', async (req, res) => {
     const {productId} = req.body;
     const cart = await cartsRepo.getOne(req.session.cartId);
     const updatedItems = cart.items.filter((product) => product.productId != productId);
+    if(updatedItems.length < 1) {
+        req.session.cartId = null;
+        return res.redirect('/');
+    }
     const updatedCart = await cartsRepo.update(cart.id, {items:updatedItems});
     const {products, grandTotal} = await getProductDetails(updatedCart);
     return res.send(cartListing({cart:updatedCart, products, grandTotal}));
 });
 
+const adjustProductQuantity = async (cartId, productId, direction) => {
+    const cart = await cartsRepo.getOne(cartId);
+    const items = cart.items;
+    let product = await items.find((item) => item.productId === productId); 
+    // TODO: adjust for inventory constraint
+    product.quantity += direction;
+    let updatedCart;
+    if(product.quantity < 1){
+        const updatedItems = items.filter((product) => product.productId != productId);
+        updatedCart = await cartsRepo.update(cart.id, {items: updatedItems});
+    } else {
+        updatedCart = await cartsRepo.update(cart.id, {items});
+    }
+    const {products, grandTotal} = await getProductDetails(updatedCart);
+    return {cart: updatedCart, products, grandTotal};
+} 
 
+router.post('/cart/products/increase', async (req, res) => {
+    if(!req.session.cartId) {
+        return res.redirect('/');
+    } 
+    const {cart, products, grandTotal} = await adjustProductQuantity(req.session.cartId, req.body.productId, 1);
+     return res.send(cartListing({cart, products, grandTotal}));
+});
+
+
+router.post('/cart/products/reduce', async (req, res) => {
+    if(!req.session.cartId) {
+        return res.redirect('/');
+    } 
+    const {cart, products, grandTotal} = await adjustProductQuantity(req.session.cartId, req.body.productId, -1);
+    if(products.length < 1){
+        req.session.cartId = null;
+        return res.redirect('/');
+    }
+    return res.send(cartListing({cart, products, grandTotal}));
+});
 
 
 module.exports = router;

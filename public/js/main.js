@@ -13,9 +13,9 @@ const updateCartBadge = () => {
 	if (count && count > 0) {
 		// console.log(cartRule);
 		cartRule.style.setProperty('--cart-badge-content', `"${count}"` );
-		console.log('cartContent', cartRule.style.getPropertyValue('--cart-badge-content'));
+		// console.log('cartContent', cartRule.style.getPropertyValue('--cart-badge-content'));
 		cartRule.style.setProperty('--cart-badge-visibility', 'visible');
-		console.log('cartContent', cartRule.style.getPropertyValue('--cart-badge-visibility'));
+		// console.log('cartContent', cartRule.style.getPropertyValue('--cart-badge-visibility'));
 	}
 	else {
 		cartRule.style.setProperty('--cart-badge-content', '');
