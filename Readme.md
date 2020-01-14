@@ -17,6 +17,10 @@
   - [ ] centralize string handling
     - [ ] errors
     - [ ] links
+  - [ ] routes
+    - [ ] error pages
+    - [ ] navigation
+    - [ ] solve page refresh
 - [ ] account management
   - [x] administrator authentication
     - [x] authorization
@@ -63,17 +67,22 @@
   - [ ] view cart navigation
 - [x] cart page will display
   - [x] title, quantity and total for each cart item
-  - [x] a remove item action
-  - [x] a reduce quantity action for each cart item
   - [x] a total for the cart
+  - [x] a remove item action
   - [x] removing all items deletes the cart
+  - [x] a reduce quantity action for each cart item
   - [x] reducing quantity of cart item to zero removes the item
+  - [ ] an increase quantity action for each cart item
+  - [ ] inactivate the increase function when inventory would be exceeded
+    - [ ] provide message regarding inventory
 - [ ] inventory constraints
   - [x] a product cannot be added to a cart if zero inventory
     - [x] remains visible
   - [ ] product inventory is changed on buy action not add to cart action
-  - [ ] 
+  - [ ] convey to public limited stock
 - [ ] transaction handling
   - [ ] buy workflow must guarantee inventory before completion
   - [ ] simulate payment workflow
 - testing
+- QUESTIONs: 
+  - how to handle inventory conflicts

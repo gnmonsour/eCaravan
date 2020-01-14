@@ -40,8 +40,6 @@ router.post('/cart/products', async (req, res) => {
 	return	res.send(publicProductsTemplate({products, count: updatedCart.items.length}))
 });
 
-
-
 const getProductDetails = async (cart) => {
     const products = [];
     let grandTotal = 0;
@@ -60,6 +58,7 @@ const getProductDetails = async (cart) => {
     }
     return {products, grandTotal};
 }
+
 // show cart
 router.get('/cart', async(req, res) => {
     if(!req.session.cartId) {
@@ -113,7 +112,6 @@ router.post('/cart/products/increase', async (req, res) => {
      return res.send(cartListing({cart, products, grandTotal}));
 });
 
-
 router.post('/cart/products/reduce', async (req, res) => {
     if(!req.session.cartId) {
         return res.redirect('/');
@@ -125,6 +123,5 @@ router.post('/cart/products/reduce', async (req, res) => {
     }
     return res.send(cartListing({cart, products, grandTotal}));
 });
-
 
 module.exports = router;
