@@ -17,32 +17,63 @@
   - [ ] centralize string handling
     - [ ] errors
     - [ ] links
-- [x] users authentication
-  - [x] authorization
-    - [x] register
-    - [x] login
-    - [x] signout
-  - [x] security
-    - [x] session cookie
-    - [x] password hashing
-- [x] administration
-  - [x] add products
-  - [x] edit products
+- [ ] account management
+  - [x] administrator authentication
+    - [x] authorization
+      - [x] register
+      - [x] login
+      - [x] signout
+    - [x] security
+      - [x] session cookie
+      - [x] password hashing
+- [ ] manage roles
+  - [x] administration roles
+    - [ ] assign roles
+    - [ ] troubleshoot accounts
+    - [ ] manage supplier relationships
+    - [ ] purchase
+  - [ ] manager role
+    - [ ] manage inventory
+      - [x] add products
+      - [x] edit products
+      - [ ] prepare purchase orders
+      - [ ] update product inventory status
+    - [ ] authorize credits
+    - [ ] track cart states
+      - [ ] active
+      - [ ] pending
+      - [ ] inactive
+- [ ] management inventory page
+  - [ ] add products to inventory
+    - [ ] title, price, description, inventory
+  - [ ] filter product views
+    - [ ] category
+    - [ ] price
+    - [ ] supplier
+    - [ ] inventory
+    - [ ] sales trends
+- [ ] public product listing page
+  - [x] add products to a cart
+  - [ ] view public product page
+- [ ] public product pages will display
+  - [ ] an image
+  - [ ] a price
+  - [ ] a description
+  - [ ] an add to cart button
+  - [ ] view cart navigation
+- [x] cart page will display
+  - [x] title, quantity and total for each cart item
+  - [x] a remove item action
+  - [x] a reduce quantity action for each cart item
+  - [x] a total for the cart
+  - [x] removing all items deletes the cart
+  - [x] reducing quantity of cart item to zero removes the item
+- [ ] inventory constraints
+  - [x] a product cannot be added to a cart if zero inventory
+    - [x] remains visible
+  - [ ] product inventory is changed on buy action not add to cart action
+  - [ ] 
 - [ ] transaction handling
-- [ ] list
-  - add products to a cart
-  - view product page
-- product page will display
-  - an image
-  - a price
-  - a description
-  - an add to cart action/button
-  - view cart action/button   
-- cart page will display
-  - title and quantity for each added item
-  - a remove item action
-  - a reduce item action
-  - a total for each item
-  - a total for the cart
-- simulated payment workflow
+  - [ ] buy workflow must guarantee inventory before completion
+  - [ ] simulate payment workflow
 - testing
